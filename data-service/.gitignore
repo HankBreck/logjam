@@ -1,1 +1,5 @@
+# venv
 /data-venv
+
+# airflow
+/logs
