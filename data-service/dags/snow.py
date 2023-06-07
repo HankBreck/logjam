@@ -1,11 +1,27 @@
 import os
-from datetime import timedelta
 
 import airflow
 from airflow import DAG
-from airflow.operators.python import PythonOperator
+
+from tasks.fetch_snow_data import fetch_snow_data
 
 dag_path = os.getcwd()
 
-# TODO: Setup first DAG to pull snow data
-    # https://www.youtube.com/watch?v=2nhdhIYueIE
+default_args = {
+    'owner': 'airflow',
+    'depends_on_past': False,
+    'start_date': airflow.utils.dates.days_ago(7),
+}
+
+with DAG(
+    'snow_dag',
+    default_args=default_args,
+    schedule='@daily',
+    catchup=False,
+) as snow_dag:
+    
+    fetch_snow_data_task = fetch_snow_data()
+
+    # TODO: add task dependencies
+
+    
