@@ -1,11 +1,6 @@
-import os
-
 import airflow
 from airflow import DAG
-
-from tasks.fetch_snow_data import fetch_snow_data
-
-dag_path = os.getcwd()
+from snow_dag.tasks.fetch_snow_data import fetch_snow_data
 
 default_args = {
     'owner': 'airflow',

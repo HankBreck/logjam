@@ -9,14 +9,15 @@ def fetch_snow_data():
     http = urllib3.PoolManager() # May need to set headers
     response = http.request('GET', request_url)
 
-    if response.status == 200:
-        csv_lines = response.data.decode().splitlines()
-        csv_lines = filter(lambda x: not x.startswith('#'), csv_lines)
-        csv_data = csv.reader(csv_lines)
-        for row in csv_data:
-            print(row)
-    else:
+    if response.status != 200:
         print("failed to fetch CSV")
         print(response.json())
+    
+    csv_lines = response.data.decode().splitlines()
+    csv_lines = filter(lambda x: not x.startswith('#'), csv_lines)
+    csv_data = csv.reader(csv_lines)
+    for row in csv_data:
+        print(row)
+        
 
     # TODO: Insert new snowtel data into Postgres
